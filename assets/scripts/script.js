@@ -2,7 +2,8 @@ var formSubmit = document.querySelector("#search-form");
 var searchInput = document.querySelector('#search-input');
 var searchHistory = document.querySelector("#search-history");
 var divContainerCity = document.querySelector("#container-city");
-
+var formCityName;
+var weatherIconLink ="https://openweathermap.org/img/wn/";
 var lat;
 var lon;
 
@@ -12,6 +13,7 @@ function getCityWeather(event){
     event.preventDefault();
     if (searchInput.value)
     {
+        formCityName=searchInput.value;
     var nx = document.createElement('p');
     nx.textContent=searchInput.value;
     nx.className = "search-history-style";
@@ -43,7 +45,8 @@ function getLocationCoordinates(){
 }
 
 function getWeather(lat, lon){
-    var weatherQueryString="https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=3ee1d7a9f54e63abfc09f48b34de5548&units=metric";
+    var weatherQueryString="http://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minute,hourly&appid=3ee1d7a9f54e63abfc09f48b34de5548&units=metric";
+    //var weatherQueryString="https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=3ee1d7a9f54e63abfc09f48b34de5548&units=metric";
     console.log(weatherQueryString);
     fetch(weatherQueryString)
     .then(function (response) {
@@ -56,27 +59,31 @@ function getWeather(lat, lon){
         if (!locRes.ok){
             console.log(locRes);
             generateContainerCityDiv(locRes);
+            
         }
     });   
 }
 
 function generateContainerCityDiv(locRes){
-    
-    var cityName=locRes.name;
-    var temp=locRes.main.temp;
-    var wind=locRes.wind.speed;
-    var humidity=locRes.main.humidity;
-    var uvIndex;
-    var weatherIcon = locRes.weather.icon;
+    var date = (moment().format("dddd MMMM Do, YYYY"));
+    var cityName=formCityName;
+    var temp=locRes.current.temp;
+    var wind=locRes.current.wind_speed;
+    var humidity=locRes.current.humidity;
+    var uvIndex=locRes.current.uvi;
+    var weatherIcon = locRes.current.weather[0].icon;
 
     var divCityHeading = document.createElement('div');
     divCityHeading.className = "col-md-12 city-heading";
     
     var cityNameElement = document.createElement('h3');
-    cityNameElement.textContent = cityName;
+    cityNameElement.textContent = cityName.toUpperCase() +  "  (" + date + ")" ;
     
+    var weatherIconImage = document.createElement('img');
+    weatherIconImage.setAttribute('src', weatherIconLink+weatherIcon+".png");
+
     var tempElement = document.createElement('h5');
-    tempElement.textContent = "Temp: " + temp;
+    tempElement.textContent = "Temp: " + temp + "";
     
     var windElement = document.createElement('h5');
     windElement.textContent = "Wind: " + wind;
@@ -89,7 +96,9 @@ function generateContainerCityDiv(locRes){
                     // <h5>UV Index:</h5>
     
     divContainerCity.className="container-city";
+    cityNameElement.appendChild(weatherIconImage);
     divCityHeading.appendChild(cityNameElement);
+    
     divCityHeading.appendChild(tempElement);
     divCityHeading.appendChild(windElement);
     divCityHeading.appendChild(humidityElement);
