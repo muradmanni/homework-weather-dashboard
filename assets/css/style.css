@@ -1,0 +1,53 @@
+
+
+
+
+header{
+    color: white;
+    padding: 10px;
+    text-align: center;
+    background-color: blue;
+    margin-bottom: 10px;
+}
+
+div{
+    /* border: solid 1px; */
+}
+
+form, input, button{
+    margin-bottom: 10px;
+}
+
+input{
+    border-radius: 5px;
+}
+
+.row{
+    margin: 0px;
+}
+
+.container-city{
+    border: solid 1px;
+}
+
+.city-heading h3, h5{
+    margin: 20px 0px;
+
+}
+
+.city-forecast div{
+    /* padding-left: 20px; */
+    margin-right: 20px;
+}
+
+.col-md-2{
+    background-color: cadetblue;
+}
+
+.search-history-style{
+    text-align: center;
+    background-color: lightgray;
+    border: none;
+    padding: 5px;
+    margin-bottom: 5px;
+}

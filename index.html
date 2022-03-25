@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  
+  
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="Description" content="weather dashboard" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  
+  <title>Weather Dashboard</title>
+</head>
+<body>
+    <header>
+        <h3>Weather Dashboard</h3>
+    </header>
+    
+        <div class="row w-100">
+            <div class="col-md-3">
+                <h3>Search for a city:</h3>
+                <form id="search-form" class="form w-100">
+                    <input id="search-input" class="form-input w-100" type="text" placeholder="San Diego">
+                    <button class="btn btn-info btn-block">Search</button>
+                </form> 
+                <hr/>
+                <div class="w-100" id="search-history"></div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="w-100" id="container-city">
+                    
+                </div>
+                <div class="col-12 city-forecast">
+                    <h5>5-Day Forecast:</h5>
+                    <div class="row w-100">
+                        <div class="col-lg-2 col-md-4 col-sm-5">
+                            <h3>Date</h3>
+                            <h5>IMG</h5>
+                            <h5>Temp:</h5>
+                            <h5>Wind:</h5>
+                            <h5>Humidity:</h5>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-5">
+                            <h3>Date</h3>
+                            <h5>IMG</h5>
+                            <h5>Temp:</h5>
+                            <h5>Wind:</h5>
+                            <h5>Humidity:</h5>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-5">
+                            <h3>Date</h3>
+                            <h5>IMG</h5>
+                            <h5>Temp:</h5>
+                            <h5>Wind:</h5>
+                            <h5>Humidity:</h5>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-5">
+                            <h3>Date</h3>
+                            <h5>IMG</h5>
+                            <h5>Temp:</h5>
+                            <h5>Wind:</h5>
+                            <h5>Humidity:</h5>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-5">
+                            <h3>Date</h3>
+                            <h5>IMG</h5>
+                            <h5>Temp:</h5>
+                            <h5>Wind:</h5>
+                            <h5>Humidity:</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        <script src="./assets/scripts/script.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
