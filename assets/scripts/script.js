@@ -3,6 +3,7 @@ var searchInput = document.querySelector('#search-input');
 var searchHistory = document.querySelector("#search-history");
 var divContainerCity = document.querySelector("#container-city");
 var formCityName;
+var localStorageWeatherCity= new Array();
 var weatherIconLink ="https://openweathermap.org/img/wn/";
 var lat;
 var lon;
@@ -14,13 +15,38 @@ function getCityWeather(event){
     if (searchInput.value)
     {
         formCityName=searchInput.value;
+        addCityToLocalStorage(formCityName);
+        getLocationCoordinates();
+        searchInput.value="";
+    }
+}
+
+function getSearchHistory(){
+    
+    var weatherHistory = JSON.parse(localStorage.getItem('weatherCity'));
+    if (weatherHistory!=null) 
+    {
+        localStorageWeatherCity=weatherHistory;
+    }
+
+    // addCityToLocalStorage(val);
+    
+    for (var i=0; i <localStorageWeatherCity.length;i++)
+    {
+        addDisplayCityHistory(localStorageWeatherCity[i]);
+    }
+}
+function addCityToLocalStorage(val){
+    localStorageWeatherCity[localStorageWeatherCity.length]= val;
+    localStorage.setItem('weatherCity',JSON.stringify(localStorageWeatherCity));
+    addDisplayCityHistory(val);
+}
+
+function addDisplayCityHistory(val){
     var nx = document.createElement('p');
-    nx.textContent=searchInput.value;
+    nx.textContent= val;
     nx.className = "search-history-style";
     searchHistory.appendChild(nx);
-    getLocationCoordinates();
-    searchInput.value="";
-    }
 }
 
 function getLocationCoordinates(){
@@ -72,6 +98,8 @@ function generateContainerCityDiv(locRes){
     var humidity=locRes.current.humidity;
     var uvIndex=locRes.current.uvi;
     var weatherIcon = locRes.current.weather[0].icon;
+    
+    divContainerCity.innerHTML="";
 
     var divCityHeading = document.createElement('div');
     divCityHeading.className = "col-md-12 city-heading";
@@ -86,10 +114,10 @@ function generateContainerCityDiv(locRes){
     tempElement.textContent = "Temp: " + temp + "";
     
     var windElement = document.createElement('h5');
-    windElement.textContent = "Wind: " + wind;
+    windElement.textContent = "Wind: " + wind + " MPH";
 
     var humidityElement = document.createElement('h5');
-    humidityElement.textContent = "Humidity: " + humidity;
+    humidityElement.textContent = "Humidity: " + humidity + " %";
                     
     var uvIndexElement = document.createElement('h5');
     uvIndexElement.textContent = "UV Index: ";
@@ -111,6 +139,9 @@ function generateContainerCityDiv(locRes){
     divContainerCity.appendChild(divCityHeading);
 }
 
+function removeDivElements(){
+    
+}
 
 function getAttribute(uvIndex){
     if (uvIndex<=2){
@@ -123,3 +154,10 @@ function getAttribute(uvIndex){
         return "uv-index-high";
     }
 }
+
+function init()
+{
+    getSearchHistory();
+}
+
+init();
