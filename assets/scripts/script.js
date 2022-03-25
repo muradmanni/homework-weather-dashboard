@@ -92,8 +92,11 @@ function generateContainerCityDiv(locRes){
     humidityElement.textContent = "Humidity: " + humidity;
                     
     var uvIndexElement = document.createElement('h5');
-    uvIndexElement.textContent = "UV Index: " + uvIndex;
-                    // <h5>UV Index:</h5>
+    uvIndexElement.textContent = "UV Index: ";
+    
+    var uvIndexValueElement = document.createElement('span');
+    uvIndexValueElement.textContent =  uvIndex;
+    uvIndexValueElement.setAttribute('class',getAttribute(uvIndex) + " uv-index");
     
     divContainerCity.className="container-city";
     cityNameElement.appendChild(weatherIconImage);
@@ -102,6 +105,21 @@ function generateContainerCityDiv(locRes){
     divCityHeading.appendChild(tempElement);
     divCityHeading.appendChild(windElement);
     divCityHeading.appendChild(humidityElement);
+
+    uvIndexElement.appendChild(uvIndexValueElement);
     divCityHeading.appendChild(uvIndexElement);
     divContainerCity.appendChild(divCityHeading);
+}
+
+
+function getAttribute(uvIndex){
+    if (uvIndex<=2){
+            return "uv-index-low";
+    }
+    else if(uvIndex>2 && uvIndex<=5)
+        {return "uv-index-moderate";}
+    else
+    {
+        return "uv-index-high";
+    }
 }

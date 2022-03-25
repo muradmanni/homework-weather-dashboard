@@ -51,3 +51,19 @@ input{
     padding: 5px;
     margin-bottom: 5px;
 }
+
+.uv-index{
+    padding: 0px 10px;
+    border-radius: 2px;
+}
+.uv-index-low{
+    background-color: green;
+}
+
+.uv-index-moderate{
+    background-color: orange;
+}
+
+.uv-index-high{
+    background-color: red;
+}
