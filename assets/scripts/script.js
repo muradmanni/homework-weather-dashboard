@@ -1,3 +1,4 @@
+//Declaring all required variables
 var formSubmit = document.querySelector("#search-form");
 var searchInput = document.querySelector('#search-input');
 var searchHistory = document.querySelector("#search-history");
@@ -25,6 +26,7 @@ function getCityWeather(event){
     }
 }
 
+//Check if localStorage has any searched city values and display on pageload in history area
 function getSearchHistory(){
     var weatherHistory = JSON.parse(localStorage.getItem('weatherCity'));
     if (weatherHistory!=null) 
@@ -39,6 +41,7 @@ function getSearchHistory(){
         addDisplayCityHistory(localStorageWeatherCity[i].city);
     }
 }
+
 function addCityToLocalStorage(val){
     localStorageWeatherCity.push({city:val, lat:lat, lon:lon});
     localStorage.setItem('weatherCity',JSON.stringify(localStorageWeatherCity));
@@ -84,8 +87,8 @@ function getWeather(lat, lon){
     })
     .then(function (locRes){
         if (!locRes.ok){
-            generateContainerCityDiv(locRes);
-            generateCityForecastDiv(locRes);
+            generateContainerCityDiv(locRes);   // to Generate current weather
+            generateCityForecastDiv(locRes);    //to Generate forecast weather
         }
     });   
 }
@@ -99,8 +102,9 @@ function generateContainerCityDiv(locRes){
     var uvIndex=locRes.current.uvi;
     var weatherIcon = locRes.current.weather[0].icon;
     
-    divContainerCity.innerHTML="";
+    divContainerCity.innerHTML="";      //Clearing the previous values in city div
 
+    //creating runtime elements with values fetched using weather API
     var divCityHeading = document.createElement('div');
     divCityHeading.className = "col-md-12 city-heading";
     
@@ -141,6 +145,7 @@ function generateContainerCityDiv(locRes){
 
 
 function getAttribute(uvIndex){
+    //setting class value according to uvi valuex`
     if (uvIndex<=2){
             return "uv-index-low";
     }
@@ -159,10 +164,12 @@ function generateCityForecastDiv(locRes){
     divCityForecastHeading.textContent="5-Day Forecast:"
 
     divCityForecast.appendChild(divCityForecastHeading);
-    
+
+    //creating div element to contain 5 day forecast
     var divCityForecastRow = document.createElement('div');
     divCityForecastRow.className = "row w-100";
 
+    //adding 5 day forecast using loop
     for (var i=1; i<=5; i++)
     {
         var temp=Math.round(locRes.daily[i].temp['day']);
