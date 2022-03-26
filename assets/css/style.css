@@ -69,3 +69,11 @@ input{
 .uv-index-high{
     background-color: red;
 }
+
+.daily{
+    color: black;
+    padding: 10px;
+    margin-bottom: 20px;
+    /* background-color: rgb(45,62,80); */
+    background-color:skyblue;
+}
