@@ -2,6 +2,7 @@ var formSubmit = document.querySelector("#search-form");
 var searchInput = document.querySelector('#search-input');
 var searchHistory = document.querySelector("#search-history");
 var divContainerCity = document.querySelector("#container-city");
+var divCityForecast = document.querySelector("#city-forecast");
 var formCityName;
 var localStorageWeatherCity= new Array();
 var weatherIconLink ="https://openweathermap.org/img/wn/";
@@ -10,7 +11,6 @@ var lon;
 
 function getWeatherFromHistory(event){
     var x= $(event.target);
-    console.log(x[0].innerHTML);
     formCityName=x[0].innerHTML;
     getWeather(x[0].dataset.lat, x[0].dataset.lon);
 }
@@ -41,7 +41,6 @@ function getSearchHistory(){
     }
 }
 function addCityToLocalStorage(val){
-    console.log(lat + "    "  + lon);
     localStorageWeatherCity.push({city:val, lat:lat, lon:lon});
     
     localStorage.setItem('weatherCity',JSON.stringify(localStorageWeatherCity));
@@ -49,7 +48,6 @@ function addCityToLocalStorage(val){
 }
 
 function addDisplayCityHistory(val){
-    console.log(val);
     var cityHistoryButton = document.createElement('button');
     cityHistoryButton.textContent= val;
     cityHistoryButton.className = "search-history-style";
@@ -60,7 +58,6 @@ function addDisplayCityHistory(val){
 
 function getLocationCoordinates(){
     var queryString="https://api.openweathermap.org/geo/1.0/direct?q=" + searchInput.value + "&appid=3ee1d7a9f54e63abfc09f48b34de5548";
-    console.log(queryString);
     fetch(queryString)
     .then(function (response) {
       if (!response.ok) {
@@ -80,7 +77,6 @@ function getLocationCoordinates(){
 
 function getWeather(lat, lon){
     var weatherQueryString="http://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minute,hourly&appid=3ee1d7a9f54e63abfc09f48b34de5548&units=metric";
-    console.log(weatherQueryString);
     fetch(weatherQueryString)
     .then(function (response) {
       if (!response.ok) {
@@ -90,15 +86,14 @@ function getWeather(lat, lon){
     })
     .then(function (locRes){
         if (!locRes.ok){
-            console.log(locRes);
             generateContainerCityDiv(locRes);
-            //generate
+            generateCityForecastDiv(locRes);
         }
     });   
 }
 
 function generateContainerCityDiv(locRes){
-    var date = (moment().format("dddd MMMM Do, YYYY"));
+    var date = (moment().format("MMMM Do, YYYY"));
     var cityName=formCityName;
     var temp=locRes.current.temp;
     var wind=locRes.current.wind_speed;
@@ -118,7 +113,7 @@ function generateContainerCityDiv(locRes){
     weatherIconImage.setAttribute('src', weatherIconLink+weatherIcon+".png");
 
     var tempElement = document.createElement('h5');
-    tempElement.textContent = "Temp: " + temp + "";
+    tempElement.innerHTML = "Temp: " + temp + " <sup>o</sup>C";
     
     var windElement = document.createElement('h5');
     windElement.textContent = "Wind: " + wind + " MPH";
@@ -157,6 +152,62 @@ function getAttribute(uvIndex){
     {
         return "uv-index-high";
     }
+}
+
+function generateCityForecastDiv(locRes){
+    divCityForecast.innerHTML="";
+
+    var divCityForecastHeading = document.createElement('h5');
+    divCityForecastHeading.textContent="5-Day Forecast:"
+
+    divCityForecast.appendChild(divCityForecastHeading);
+    console.log(locRes.daily)
+    
+    var divCityForecastRow = document.createElement('div');
+    divCityForecastRow.className = "row w-100";
+  
+    // <h5>IMG</h5>
+    // <h5>Temp:</h5>
+    // <h5>Wind:</h5>
+    // <h5>Humidity:</h5>
+
+    for (var i=0; i<5; i++)
+    {
+        console.log(i);
+        
+        var temp=locRes.daily[i].temp['day'];
+        var wind=locRes.daily[i].wind_speed;
+        var humidity=locRes.daily[i].humidity;
+
+        var weatherIcon = locRes.daily[i].weather[0].icon;
+        var dailyDivForecast = document.createElement('div');
+        dailyDivForecast.className= "col-xl-2 col-lg-3 col-md-5 col-sm-5";
+
+        var dailyForecastDate=document.createElement('h4');
+        dailyForecastDate.textContent=locRes.daily[i].dt;
+        
+        var dailyWeatherIconImage = document.createElement('img');
+        dailyWeatherIconImage.setAttribute('src', weatherIconLink+weatherIcon+".png");
+    
+        var dailyTempElement = document.createElement('p');
+        dailyTempElement.innerHTML = "Temp: " + temp + " <sup>o</sup>C";
+        
+        var windElement = document.createElement('h5');
+        windElement.textContent = "Wind: " + wind + " MPH";
+    
+        var humidityElement = document.createElement('h5');
+        humidityElement.textContent = "Humidity: " + humidity + " %";
+    
+
+        
+        dailyDivForecast.appendChild(dailyForecastDate);
+        dailyDivForecast.appendChild(dailyWeatherIconImage);
+        dailyDivForecast.appendChild(dailyTempElement);
+        divCityForecastRow.appendChild(dailyDivForecast);
+    }
+    
+     divCityForecast.appendChild(divCityForecastRow);
+    
 }
 
 function init()
