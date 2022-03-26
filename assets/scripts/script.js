@@ -77,7 +77,7 @@ function getLocationCoordinates(){
 }
 
 function getWeather(lat, lon){
-    var weatherQueryString="http://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minute,hourly&appid=3ee1d7a9f54e63abfc09f48b34de5548&units=metric";
+    var weatherQueryString="https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minute,hourly&appid=3ee1d7a9f54e63abfc09f48b34de5548&units=metric";
     fetch(weatherQueryString)
     .then(function (response) {
       if (!response.ok) {
